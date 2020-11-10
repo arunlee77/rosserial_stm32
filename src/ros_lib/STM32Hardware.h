@@ -35,7 +35,11 @@
 #ifndef ROS_STM32_HARDWARE_H_
 #define ROS_STM32_HARDWARE_H_
 
-#define STM32F3xx  // Change for your device
+// Change for your device
+//#define STM32F3xx
+#define STM32H7xx
+
+
 #ifdef STM32F3xx
 #include "stm32f3xx_hal.h"
 #include "stm32f3xx_hal_uart.h"
@@ -48,8 +52,16 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f7xx_hal_uart.h"
 #endif /* STM32F7xx */
+#ifdef STM32H7xx
+#include "stm32h7xx_hal.h"
+#include "stm32h7xx_hal_uart.h"
+#endif /* STM32F7xx */
 
+#ifndef STM32H7xx
 extern UART_HandleTypeDef huart2;
+#else
+extern UART_HandleTypeDef huart3;
+#endif
 
 class STM32Hardware {
   protected:
@@ -62,11 +74,10 @@ class STM32Hardware {
 
     const static uint16_t tbuflen = 512;
     uint8_t tbuf[tbuflen];
-    uint32_t twind, tfind;
-
+    uint16_t twind, tfind;
   public:
     STM32Hardware():
-      huart(&huart2), rind(0), twind(0), tfind(0){
+      huart(&huart3), rind(0), twind(0), tfind(0){
     }
 
     STM32Hardware(UART_HandleTypeDef *huart_):
@@ -92,7 +103,6 @@ class STM32Hardware {
 
     void flush(void){
       static bool mutex = false;
-
       if((huart->gState == HAL_UART_STATE_READY) && !mutex){
         mutex = true;
 
@@ -116,7 +126,6 @@ class STM32Hardware {
       if(n != n_tail){
         memcpy(tbuf, &(data[n_tail]), n - n_tail);
       }
-
       flush();
     }
 
