@@ -135,7 +135,7 @@ class STM32Hardware {
         }
         return c;
 #else
-        //return getRosInterface()->read();
+        // get one char
         return getRosInterface()->getRxData();
 #endif
 
@@ -172,7 +172,7 @@ class STM32Hardware {
     void write(uint8_t* data, int length){
 
 #ifdef USE_ETHERNET_FOR_ROS
-    	//getRosInterface()->write(data, length);
+    	// Send out
     	if (!getRosInterface()->SendData(data, length) )
     	{
     		// FAiled to send data log it

@@ -8,10 +8,12 @@ The original code is focused on STM32F3xx, 4xx, and 7xx series and it uses the [
 If you use the package for other series, please edit [the following line](https://github.com/yoneken/rosserial_stm32/blob/master/src/ros_lib/STM32Hardware.h#L38) on src/ros_lib/STM32Hardware.h .  
 
 ## Generate code
-$ cd _target_workspace_ (It should contain Inc and Src directories).  
+$ build and install rosserial_stm32 to the Ubuntu/Linux machine
+$ cd stm32_target_workspace_ (It should contain Inc and Src directories).  
 $ rosrun rosserial_stm32 make_libraries.py .  
 **Never forget to change the project type to _cpp project_ in STM32CubeIDE or SW4STM32!!**  
 **For STM32CubeIDE users:** [You have to add /Inc directory as a "Source Location" in the project properties(C/C++ General > Paths and Symbols > Source Location).](https://github.com/yoneken/rosserial_stm32/issues/10#issuecomment-573997253)  
+$ change the default message size to 1024 in node_handle.h
 
 ## Examples
 See [src/ros_lib/examples](https://github.com/yoneken/rosserial_stm32/tree/master/src/ros_lib/examples)  
